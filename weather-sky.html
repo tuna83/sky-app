@@ -441,8 +441,30 @@
     return best;
   }
 
-  function buildDaySummary(d, i, precipPeak){
-    const info = weatherInfo(d.daily.weather_code[i]);
+  // Open-Meteo's own daily weather_code picks whichever single hour is most "severe" on their
+  // ranking scale — even one or two cloudy hours can outrank a mostly-clear day. This instead
+  // finds whichever code actually occurred most often that day (majority vote), counting only
+  // remaining hours for today, same as the precip peak above.
+  function dominantDayWeatherCode(d, i){
+    const dateStr = d.daily.time[i];
+    const now = new Date(d.current.time);
+    const counts = {};
+    for(let k=0; k<d.hourly.time.length; k++){
+      if(d.hourly.time[k].slice(0,10) !== dateStr) continue;
+      const t = new Date(d.hourly.time[k]);
+      if(i===0 && t < now) continue;
+      const code = d.hourly.weather_code[k];
+      counts[code] = (counts[code]||0)+1;
+    }
+    let bestCode = d.daily.weather_code[i], bestCount = -1;
+    Object.keys(counts).forEach(codeStr=>{
+      if(counts[codeStr] > bestCount){ bestCount = counts[codeStr]; bestCode = parseInt(codeStr,10); }
+    });
+    return bestCode;
+  }
+
+  function buildDaySummary(d, i, precipPeak, weatherCode){
+    const info = weatherInfo(weatherCode);
     const isWet = info[1]==='rain' || info[1]==='snow' || info[1]==='storm';
     const dailyMaxP = precipPeak ? precipPeak.p : 0;
     const period = precipPeak ? periodLabel(precipPeak.time.getHours()) : null;
@@ -577,7 +599,6 @@
 
   function renderLedger(d){
     const days = d.daily.time;
-    const codes = d.daily.weather_code;
     const hi = d.daily.temperature_2m_max;
     const lo = d.daily.temperature_2m_min;
     const sunrise = d.daily.sunrise;
@@ -592,7 +613,8 @@
     const localDate = dateOnly => new Date(dateOnly+'T00:00:00'); // date-only strings parse as UTC by default; force local midnight instead
 
     const rows = days.map((dt,i)=>{
-      const info = weatherInfo(codes[i]);
+      const dominantCode = dominantDayWeatherCode(d, i);
+      const info = weatherInfo(dominantCode);
       const dow = i===0 ? 'Today' : localDate(dt).toLocaleDateString(undefined,{weekday:'short'});
       const left = ((lo[i]-weekMin)/weekSpan)*100;
       const width = ((hi[i]-lo[i])/weekSpan)*100;
@@ -614,7 +636,7 @@
           chevron+
         '</div>'+
         '<div class="day-detail">'+
-          '<div class="day-summary">'+buildDaySummary(d, i, precipPeak)+'</div>'+
+          '<div class="day-summary">'+buildDaySummary(d, i, precipPeak, dominantCode)+'</div>'+
           '<div class="detail-grid">'+
             '<div class="detail-stat"><div class="dk">Sunrise</div><div class="dv">'+timeFmt(sunrise[i])+'</div></div>'+
             '<div class="detail-stat"><div class="dk">Sunset</div><div class="dv">'+timeFmt(sunset[i])+'</div></div>'+
