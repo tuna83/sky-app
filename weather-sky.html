@@ -995,8 +995,11 @@
     if(state.lat == null) return;
     if(!radarMap){
       radarMap = L.map('radarMap', { zoomControl:true, doubleClickZoom:false }).setView([state.lat, state.lon], 7);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:'abcd', maxZoom:19
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution:'Tiles &copy; Esri', maxZoom:16
+      }).addTo(radarMap);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom:16
       }).addTo(radarMap);
       L.marker([state.lat, state.lon]).addTo(radarMap);
       document.getElementById('radarMap').addEventListener('dblclick', (e)=>{ e.stopPropagation(); toggleRadar(); });
