@@ -543,11 +543,20 @@
   }
 
   // ---------- render ----------
+  function getNowIndex(d){
+    return Math.max(0, d.hourly.time.findIndex(t => new Date(t) >= new Date(d.current.time)));
+  }
+
   function renderAll(){
     if(!state.data) return;
     const d = state.data;
     const cur = d.current;
-    const info = weatherInfo(cur.weather_code);
+    const nowIdx = getNowIndex(d);
+    // d.current.weather_code and d.hourly.weather_code at "now" can briefly disagree (separate
+    // fields from Open-Meteo) — trust the hourly one since it's what the "Now" hourly card shows,
+    // so the hero and the hourly strip never contradict each other about current conditions.
+    const conditionCode = (d.hourly.weather_code && d.hourly.weather_code[nowIdx] != null) ? d.hourly.weather_code[nowIdx] : cur.weather_code;
+    const info = weatherInfo(conditionCode);
     const isDay = cur.is_day === 1;
     const now = new Date(cur.time);
     const sunrise = new Date(d.daily.sunrise[0]);
@@ -573,7 +582,7 @@
 
   function renderHourly(d){
     const box = document.getElementById('hourlyScroll');
-    const nowIdx = Math.max(0, d.hourly.time.findIndex(t => new Date(t) >= new Date(d.current.time)));
+    const nowIdx = getNowIndex(d);
     const slice = 24;
     let html = '';
     for(let i=nowIdx; i<nowIdx+slice && i<d.hourly.time.length; i++){
