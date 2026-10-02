@@ -198,6 +198,42 @@
 
   footer{color:rgba(255,255,255,.5);font-size:11.5px;text-align:center;padding:28px 0 4px;}
   footer a{color:rgba(255,255,255,.7);}
+  .linklike{
+    background:none;border:none;padding:0;font:inherit;color:rgba(255,255,255,.7);
+    text-decoration:underline;cursor:pointer;
+  }
+  .linklike:hover{color:#fff;}
+  .linklike:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+
+  .info-modal{
+    position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
+    padding:20px;background:rgba(5,8,15,.6);backdrop-filter:blur(4px);
+  }
+  .info-card{
+    position:relative;max-width:520px;width:100%;max-height:85vh;overflow:auto;
+    background:rgba(20,26,38,.97);border:1px solid rgba(255,255,255,.16);border-radius:16px;
+    padding:26px 26px 22px;color:rgba(255,255,255,.88);
+  }
+  .info-card h2{font-size:18px;font-weight:500;margin:0 28px 14px 0;color:#fff;}
+  .info-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:18px 0 6px;}
+  .info-card p{font-size:13.5px;line-height:1.6;font-weight:300;margin:0;text-align:left;}
+  .info-card a{color:#9fd3ff;}
+  .info-close{
+    position:absolute;top:12px;right:14px;width:32px;height:32px;border-radius:50%;
+    background:rgba(255,255,255,.1);border:none;color:#fff;font-size:20px;line-height:1;cursor:pointer;
+  }
+  .info-close:hover{background:rgba(255,255,255,.2);}
+  .info-close:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+
+  .bmc-btn{
+    display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:9px 18px;
+    background:#FFDD00;color:#1a1a1a !important;border-radius:20px;text-decoration:none;
+    font-size:13px;font-weight:600;box-shadow:0 2px 10px rgba(0,0,0,.25);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .bmc-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.3);}
+  .bmc-btn:focus-visible{outline:2px solid #fff;outline-offset:3px;}
+  .bmc-btn svg{width:16px;height:16px;flex:none;}
 
   .hidden{display:none !important;}
   .results{
@@ -271,7 +307,29 @@
   </main>
 
   <p class="hint-line" id="radarHint">Double-click anywhere for live radar</p>
-  <footer>Readings via <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> · updates on each search</footer>
+  <footer>
+    <a class="bmc-btn" href="https://buymeacoffee.com/tuna83" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V8z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v2M11 3v2M14 3v2"/></svg>
+      Buy me a coffee
+    </a>
+    <div style="margin-top:16px;">Weather data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> · <button type="button" class="linklike" id="infoLink">Disclaimer &amp; privacy</button></div>
+  </footer>
+</div>
+
+<div id="infoModal" class="info-modal hidden" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+  <div class="info-card">
+    <button type="button" class="info-close" id="infoClose" aria-label="Close">&times;</button>
+    <h2 id="infoTitle">Disclaimer &amp; privacy</h2>
+
+    <h3>Disclaimer</h3>
+    <p>Forecasts, radar, UV, and allergy information here are provided for general information only and may be inaccurate or out of date. Don&rsquo;t rely on this site for safety-critical decisions &mdash; check official sources such as your national weather service for warnings. Nothing here is medical advice. The site is provided &ldquo;as is,&rdquo; without warranties of any kind.</p>
+
+    <h3>Privacy</h3>
+    <p>This site doesn&rsquo;t collect, store, or sell your data, and it doesn&rsquo;t use cookies or accounts. If you allow location access, your coordinates are used in your browser and sent to Open-Meteo to fetch your forecast. Loading the page and map also contacts third-party services &mdash; Google Fonts, cdnjs (map library), Esri (map tiles), and RainViewer (radar) &mdash; which can see your IP address under their own privacy policies.</p>
+
+    <h3>Data sources</h3>
+    <p>Weather and geocoding data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a>. Pollen data comes from the CAMS European model and is only available in and around Europe. Radar imagery by <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a>. Map tiles &copy; Esri. Map library: Leaflet.</p>
+  </div>
 </div>
 
 <div id="radarView" class="radar-view" aria-hidden="true">
@@ -1034,11 +1092,24 @@
   }
 
   document.addEventListener('dblclick', (e)=>{
-    if(e.target.closest('input, button, a, .hour-card, .day-row, .day-item, .day-detail, .results, .leaflet-control, .mode-toggle')) return;
+    if(e.target.closest('input, button, a, .hour-card, .day-row, .day-item, .day-detail, .results, .leaflet-control, .mode-toggle, .info-modal')) return;
     toggleRadar();
   });
 
   window.addEventListener('resize', ()=>{ if(radarActive && radarMap) radarMap.invalidateSize(); });
+
+  // ---------- disclaimer & privacy modal ----------
+  const infoModal = document.getElementById('infoModal');
+  const infoLink = document.getElementById('infoLink');
+  const infoClose = document.getElementById('infoClose');
+  function openInfo(){ infoModal.classList.remove('hidden'); infoClose.focus(); }
+  function closeInfo(){ infoModal.classList.add('hidden'); infoLink.focus(); }
+  infoLink.addEventListener('click', openInfo);
+  infoClose.addEventListener('click', closeInfo);
+  infoModal.addEventListener('click', (e)=>{ if(e.target === infoModal) closeInfo(); });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && !infoModal.classList.contains('hidden')) closeInfo();
+  });
 
   // ---------- init ----------
   if(navigator.geolocation){
