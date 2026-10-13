@@ -198,6 +198,92 @@
 
   footer{color:rgba(255,255,255,.5);font-size:11.5px;text-align:center;padding:28px 0 4px;}
   footer a{color:rgba(255,255,255,.7);}
+  /* saved places */
+  .saved-chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none;}
+  .saved-chips::-webkit-scrollbar{display:none;}
+  .chip{
+    display:inline-flex;align-items:center;flex:none;border-radius:16px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);
+  }
+  .chip.active{background:rgba(255,255,255,.9);color:#1a2233;}
+  .chip button{background:none;border:none;color:inherit;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;}
+  .chip .chip-go{padding:6px 4px 6px 12px;}
+  .chip .chip-x{padding:6px 10px 6px 4px;opacity:.6;font-size:15px;line-height:1;}
+  .chip .chip-x:hover{opacity:1;}
+  .chip button:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:12px;}
+
+  .place-line{display:inline-flex;align-items:center;gap:4px;}
+  .place-actions{display:inline-flex;align-items:center;}
+  .mini-btn{
+    background:none;border:none;color:rgba(255,255,255,.75);width:28px;height:28px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;
+  }
+  .mini-btn:hover{background:rgba(255,255,255,.14);color:#fff;}
+  .mini-btn:focus-visible{outline:2px solid #fff;outline-offset:1px;}
+  .mini-btn svg{width:16px;height:16px;}
+  .mini-btn[aria-pressed="true"]{color:#ffd23d;}
+  .mini-btn[aria-pressed="true"] svg{fill:currentColor;}
+
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:60;
+    background:rgba(10,14,22,.9);color:#fff;font-size:13px;padding:9px 16px;border-radius:18px;
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  /* weather alerts */
+  .alerts{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+  .alerts:empty{display:none;}
+  .alert{
+    --sev:#8aa0b8;
+    background:rgba(10,14,22,.52);border:1px solid rgba(255,255,255,.16);border-left:4px solid var(--sev);
+    border-radius:12px;backdrop-filter:blur(6px);overflow:hidden;
+  }
+  .alert.sev-extreme{--sev:#ff5a5a;}
+  .alert.sev-severe{--sev:#ff8f3d;}
+  .alert.sev-moderate{--sev:#ffd23d;}
+  .alert.sev-minor{--sev:#7fb8ff;}
+  .alert-head{
+    width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;background:none;border:none;
+    color:#fff;font-family:inherit;font-size:13.5px;font-weight:500;text-align:left;cursor:pointer;
+  }
+  .alert-head:focus-visible{outline:2px solid #fff;outline-offset:-2px;}
+  .alert-icon{flex:none;width:18px;height:18px;color:var(--sev);}
+  .alert-event{flex:none;}
+  .alert-until{flex:1;min-width:0;color:rgba(255,255,255,.65);font-weight:400;font-size:12px;}
+  .alert-chev{flex:none;width:14px;height:14px;opacity:.55;transition:transform .25s ease;}
+  .alert.open .alert-chev{transform:rotate(180deg);}
+  .alert-body{display:none;padding:0 14px 14px;max-height:280px;overflow:auto;}
+  .alert.open .alert-body{display:block;}
+  .alert-body p{margin:0 0 10px;font-size:12.5px;line-height:1.55;font-weight:300;color:rgba(255,255,255,.9);white-space:pre-line;text-align:left;}
+  .alert-body .alert-headline{font-weight:500;color:#fff;}
+  .alert-body .alert-src{font-size:11px;color:rgba(255,255,255,.5);margin:0;}
+
+  /* wind / air quality chips */
+  .stat-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px;}
+  .stat-chip{
+    display:inline-flex;align-items:baseline;gap:7px;padding:7px 13px;border-radius:14px;font-size:13px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px);
+  }
+  .stat-chip .k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.62);}
+  .stat-chip .v{font-weight:500;}
+  .stat-chip .sub{color:rgba(255,255,255,.68);font-size:11.5px;}
+  .aqi-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+
+  /* radar playback bar */
+  .radar-bar{
+    position:absolute;left:20px;bottom:26px;right:96px;max-width:440px;z-index:500;
+    display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:24px;
+    background:rgba(10,14,22,.66);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(6px);
+    font-family:'Inter',sans-serif;color:#fff;
+  }
+  .radar-bar button{
+    width:30px;height:30px;border-radius:50%;border:none;flex:none;cursor:pointer;
+    background:rgba(255,255,255,.92);color:#1a2233;display:flex;align-items:center;justify-content:center;
+  }
+  .radar-bar button:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+  .radar-bar input[type=range]{flex:1;min-width:60px;accent-color:#fff;cursor:pointer;}
+  .radar-time{font-size:11.5px;white-space:nowrap;opacity:.92;min-width:96px;text-align:right;}
+
   .linklike{
     background:none;border:none;padding:0;font:inherit;color:rgba(255,255,255,.7);
     text-decoration:underline;cursor:pointer;
@@ -275,6 +361,8 @@
     </div>
   </div>
 
+  <div class="saved-chips hidden" id="savedChips" aria-label="Saved places"></div>
+
   <div id="fileTip" class="filetip hidden">
     Firefox blocks live weather data when a page is opened directly from disk (a <code>file://</code> address).
     Serve this file locally — e.g. run <code>python3 -m http.server</code> in this folder and open
@@ -284,15 +372,28 @@
   <div id="status" class="status">Reading the sky…</div>
 
   <main id="content" class="hidden">
+    <div class="alerts" id="alerts" aria-label="Weather alerts"></div>
+
     <section class="hero fade-in">
       <div class="place">
-        <span id="placeName">—</span>
+        <span class="place-line">
+          <span id="placeName">—</span>
+          <span class="place-actions" id="placeActions">
+            <button type="button" class="mini-btn" id="starBtn" aria-pressed="false" aria-label="Save this place" title="Save this place">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><polygon points="12 2.5 15.1 8.8 22 9.8 17 14.7 18.2 21.5 12 18.2 5.8 21.5 7 14.7 2 9.8 8.9 8.8"/></svg>
+            </button>
+            <button type="button" class="mini-btn" id="shareBtn" aria-label="Copy link to this place" title="Copy link to this place">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+            </button>
+          </span>
+        </span>
         <span class="sub" id="placeDate">—</span>
       </div>
       <div class="bigtemp" id="bigTemp">—</div>
       <div class="condrow"><span id="condIcon"></span><span id="condText">—</span></div>
       <div class="hilo" id="hiLo">—</div>
       <p class="summary" id="summary">—</p>
+      <div class="stat-chips" id="statChips"></div>
     </section>
 
     <section class="hourly fade-in">
@@ -316,6 +417,8 @@
   </footer>
 </div>
 
+<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
 <div id="infoModal" class="info-modal hidden" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
   <div class="info-card">
     <button type="button" class="info-close" id="infoClose" aria-label="Close">&times;</button>
@@ -325,10 +428,10 @@
     <p>Forecasts, radar, UV, and allergy information here are provided for general information only and may be inaccurate or out of date. Don&rsquo;t rely on this site for safety-critical decisions &mdash; check official sources such as your national weather service for warnings. Nothing here is medical advice. The site is provided &ldquo;as is,&rdquo; without warranties of any kind.</p>
 
     <h3>Privacy</h3>
-    <p>This site doesn&rsquo;t collect, store, or sell your data, and it doesn&rsquo;t use cookies or accounts. If you allow location access, your coordinates are used in your browser and sent to Open-Meteo to fetch your forecast. Loading the page and map also contacts third-party services &mdash; Google Fonts, cdnjs (map library), Esri (map tiles), and RainViewer (radar) &mdash; which can see your IP address under their own privacy policies.</p>
+    <p>This site doesn&rsquo;t collect or sell your data, and it has no accounts or cookies. Your preferences (units, saved places, and last location) are stored only in your own browser and are never sent to this site. If you allow location access, your coordinates are used in your browser and sent to Open-Meteo to fetch your forecast, and for US locations to the National Weather Service to look up alerts. Loading the page and map also contacts third-party services &mdash; Google Fonts, cdnjs (map library), Esri (map tiles), and RainViewer (radar) &mdash; which can see your IP address under their own privacy policies.</p>
 
     <h3>Data sources</h3>
-    <p>Weather and geocoding data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a>. Pollen data comes from the CAMS European model and is only available in and around Europe. Radar imagery by <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a>. Map tiles &copy; Esri. Map library: Leaflet.</p>
+    <p>Weather and geocoding data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a>. Air quality (US AQI) comes from Open-Meteo&rsquo;s CAMS-based model, and pollen data comes from the CAMS European model and is only available in and around Europe. Weather alerts are from the U.S. National Weather Service (api.weather.gov) and cover the US only. Radar imagery by <a href="https://www.rainviewer.com" target="_blank" rel="noopener">RainViewer</a>. Map tiles &copy; Esri. Map library: Leaflet.</p>
   </div>
 </div>
 
@@ -348,13 +451,38 @@
     <div class="legend-bar"></div>
     <div class="legend-labels"><span id="legendMin">—</span><span id="legendMax">—</span></div>
   </div>
+  <div class="radar-bar" id="radarBar">
+    <button type="button" id="radarPlay" aria-label="Pause radar"></button>
+    <input type="range" id="radarSlider" min="0" max="0" value="0" step="1" aria-label="Radar time">
+    <span class="radar-time" id="radarTime">—</span>
+  </div>
   <div class="radar-loading" id="radarLoading">Tuning in the radar…</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 (function(){
-  const state = { unit:'C', data:null, pollen:null, place:null, lat:null, lon:null };
+  // Per-browser preferences. localStorage can throw or be unavailable (private windows, blocked
+  // site data), so every access is wrapped and the app works fine without it.
+  const store = {
+    get(k, fallback){
+      try{ const v = localStorage.getItem('sky.'+k); return v==null ? fallback : JSON.parse(v); }
+      catch(e){ return fallback; }
+    },
+    set(k, v){ try{ localStorage.setItem('sky.'+k, JSON.stringify(v)); }catch(e){} }
+  };
+  function defaultUnit(){
+    const lang = (navigator.language || '').toLowerCase();
+    return /-us$/.test(lang) ? 'F' : 'C';
+  }
+  const esc = s => String(s==null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const state = {
+    unit: store.get('unit', defaultUnit()),
+    data:null, pollen:null, aqi:null, place:null, lat:null, lon:null,
+    geo:false, lastLoaded:0, lastAttempt:0, loading:false, reqId:0, alerts:[]
+  };
+  if(state.unit !== 'C' && state.unit !== 'F') state.unit = defaultUnit();
 
   const statusEl = document.getElementById('status');
   const contentEl = document.getElementById('content');
@@ -364,6 +492,9 @@
   const unitC = document.getElementById('unitC');
   const unitF = document.getElementById('unitF');
   const fileTip = document.getElementById('fileTip');
+
+  unitC.classList.toggle('active', state.unit === 'C');
+  unitF.classList.toggle('active', state.unit === 'F');
 
   if (location.protocol === 'file:') fileTip.classList.remove('hidden');
 
@@ -630,9 +761,45 @@
     document.getElementById('condText').textContent = info[0];
     document.getElementById('hiLo').textContent = 'H:'+toDisplay(d.daily.temperature_2m_max[0])+'°  L:'+toDisplay(d.daily.temperature_2m_min[0])+'°  ·  Feels like '+toDisplay(cur.apparent_temperature)+'°  ·  Humidity '+Math.round(cur.relative_humidity_2m)+'%';
     document.getElementById('summary').textContent = buildSummary(d, info, isDay);
+    renderStatChips(cur);
+    document.getElementById('placeActions').classList.toggle('hidden', state.geo);
+    renderFavorites();
 
     renderHourly(d);
     renderLedger(d);
+  }
+
+  // ---------- wind + air quality chips ----------
+  const CARDINALS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  function cardinal(deg){ return CARDINALS[Math.round((((deg % 360) + 360) % 360) / 22.5) % 16]; }
+
+  function aqiInfo(v){
+    if(v <= 50)  return { label:'Good', color:'#4ade80' };
+    if(v <= 100) return { label:'Moderate', color:'#facc15' };
+    if(v <= 150) return { label:'Unhealthy for Sensitive Groups', color:'#fb923c' };
+    if(v <= 200) return { label:'Unhealthy', color:'#f87171' };
+    if(v <= 300) return { label:'Very Unhealthy', color:'#c084fc' };
+    return { label:'Hazardous', color:'#be123c' };
+  }
+
+  function renderStatChips(cur){
+    const useMph = state.unit === 'F';
+    const conv = kmh => Math.round(useMph ? kmh * 0.621371 : kmh);
+    const unitLbl = useMph ? 'mph' : 'km/h';
+    let html = '';
+    if(cur.wind_speed_10m != null){
+      const speed = conv(cur.wind_speed_10m);
+      const dir = cur.wind_direction_10m != null ? ' '+cardinal(cur.wind_direction_10m) : '';
+      const gust = cur.wind_gusts_10m != null ? conv(cur.wind_gusts_10m) : null;
+      html += '<div class="stat-chip"><span class="k">Wind</span><span class="v">'+speed+' '+unitLbl+dir+'</span>'+
+        (gust != null && gust > speed ? '<span class="sub">gusts '+gust+'</span>' : '')+'</div>';
+    }
+    if(state.aqi != null){
+      const a = aqiInfo(state.aqi);
+      html += '<div class="stat-chip"><span class="k">Air quality</span><span class="v"><i class="aqi-dot" style="background:'+a.color+'"></i>'+
+        Math.round(state.aqi)+' · '+a.label+'</span></div>';
+    }
+    document.getElementById('statChips').innerHTML = html;
   }
 
   const DROP_FILL = '<svg viewBox="0 0 24 24"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0C19 12 12 2 12 2z" fill="currentColor"/></svg>';
@@ -640,6 +807,7 @@
 
   function renderHourly(d){
     const box = document.getElementById('hourlyScroll');
+    const prevScroll = box.scrollLeft; // keep the user's place in the strip across refreshes
     const nowIdx = getNowIndex(d);
     const slice = 24;
     let html = '';
@@ -662,6 +830,7 @@
         '</div>';
     }
     box.innerHTML = html;
+    box.scrollLeft = prevScroll;
   }
 
   function renderLedger(d){
@@ -715,7 +884,11 @@
       '</div>';
     }).join('');
 
-    document.getElementById('dailyLedger').innerHTML = rows;
+    // keep any expanded rows open across re-renders (auto-refresh, unit toggle)
+    const ledgerEl = document.getElementById('dailyLedger');
+    const openDays = new Set(Array.from(ledgerEl.querySelectorAll('.day-item.open')).map(el => el.dataset.day));
+    ledgerEl.innerHTML = rows;
+    ledgerEl.querySelectorAll('.day-item').forEach(el => { if(openDays.has(el.dataset.day)) el.classList.add('open'); });
   }
 
   document.getElementById('dailyLedger').addEventListener('click', (e)=>{
@@ -724,51 +897,270 @@
     row.parentElement.classList.toggle('open');
   });
 
-  async function fetchPollen(lat, lon){
+  // One request covers both pollen (hourly, Europe-only) and current US AQI (global).
+  async function fetchAirQuality(lat, lon){
     try{
       const url = 'https://air-quality-api.open-meteo.com/v1/air-quality'
         + '?latitude='+lat+'&longitude='+lon
+        + '&current=us_aqi'
         + '&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto';
       const res = await fetch(url);
       if(!res.ok) return null;
       const j = await res.json();
-      return (j.hourly && j.hourly.time) ? j.hourly : null;
+      return {
+        pollen: (j.hourly && j.hourly.time) ? j.hourly : null,
+        aqi: (j.current && j.current.us_aqi != null) ? j.current.us_aqi : null
+      };
+    }catch(e){ return null; }
+  }
+
+  // ---------- NWS weather alerts (US only) ----------
+  // Returns an array (possibly empty) on success and null on any failure, so a transient network
+  // error during an auto-refresh never wipes out alerts that are already on screen.
+  // No custom headers on purpose: a User-Agent header would trigger a CORS preflight that
+  // api.weather.gov rejects, and Accept is already what the endpoint serves by default.
+  async function fetchAlerts(lat, lon){
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    try{
+      const url = 'https://api.weather.gov/alerts/active?point='+Number(lat).toFixed(4)+','+Number(lon).toFixed(4);
+      const res = await fetch(url, { signal: ctrl.signal });
+      if(!res.ok) return null;
+      const j = await res.json();
+      return (j.features || []).map(f => f.properties || {});
+    }catch(e){ return null; }
+    finally{ clearTimeout(timer); }
+  }
+
+  const SEV_ORDER = { extreme:0, severe:1, moderate:2, minor:3 };
+  const ALERT_ICON = '<svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+  const ALERT_CHEV = '<svg class="alert-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+  // NWS text is hard-wrapped at ~66 columns; join single line breaks, keep paragraph breaks.
+  function tidyAlertText(t){
+    return String(t || '').replace(/\r/g,'').replace(/([^\n])\n(?!\n)/g,'$1 ').trim();
+  }
+  function alertUntil(a){
+    const end = a.ends || a.expires;
+    const t = end ? new Date(end) : null;
+    if(!t || isNaN(t)) return '';
+    const opts = { weekday:'short', hour:'numeric', minute:'2-digit' };
+    // show the time in the forecast location's own timezone, not the viewer's
+    try{ return 'until '+t.toLocaleString(undefined, Object.assign({ timeZone: state.data && state.data.timezone }, opts)); }
+    catch(e){ return 'until '+t.toLocaleString(undefined, opts); }
+  }
+
+  function renderAlerts(){
+    const box = document.getElementById('alerts');
+    box.textContent = '';
+    const list = (state.alerts || []).slice()
+      .sort((a,b) => (SEV_ORDER[(a.severity||'').toLowerCase()] ?? 4) - (SEV_ORDER[(b.severity||'').toLowerCase()] ?? 4))
+      .slice(0, 5);
+    list.forEach(a => {
+      const sev = (a.severity || 'unknown').toLowerCase();
+      const item = document.createElement('div');
+      item.className = 'alert sev-'+sev;
+
+      const head = document.createElement('button');
+      head.type = 'button';
+      head.className = 'alert-head';
+      head.setAttribute('aria-expanded', 'false');
+      head.insertAdjacentHTML('beforeend', ALERT_ICON);
+      const ev = document.createElement('span'); ev.className = 'alert-event'; ev.textContent = a.event || 'Weather alert';
+      const until = document.createElement('span'); until.className = 'alert-until'; until.textContent = alertUntil(a);
+      head.append(ev, until);
+      head.insertAdjacentHTML('beforeend', ALERT_CHEV);
+      head.addEventListener('click', () => {
+        const open = item.classList.toggle('open');
+        head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      const body = document.createElement('div');
+      body.className = 'alert-body';
+      [['alert-headline', a.headline], ['', tidyAlertText(a.description)], ['', tidyAlertText(a.instruction)]].forEach(([cls, txt]) => {
+        if(!txt) return;
+        const p = document.createElement('p'); if(cls) p.className = cls; p.textContent = txt; body.appendChild(p);
+      });
+      if(a.senderName){
+        const src = document.createElement('p'); src.className = 'alert-src'; src.textContent = 'Source: '+a.senderName; body.appendChild(src);
+      }
+      item.append(head, body);
+      box.appendChild(item);
+    });
+  }
+
+  // ---------- saved places, share links, toast ----------
+  let favorites = store.get('favorites', []);
+  if(!Array.isArray(favorites)) favorites = [];
+  const samePlace = (a, b) => Math.abs(a.lat - b.lat) < 0.02 && Math.abs(a.lon - b.lon) < 0.02;
+  const isFavorite = () => state.lat != null && !state.geo && favorites.some(f => samePlace(f, state));
+
+  function renderFavorites(){
+    const box = document.getElementById('savedChips');
+    box.textContent = '';
+    favorites.forEach((f, i) => {
+      const chip = document.createElement('div');
+      chip.className = 'chip' + (state.lat != null && !state.geo && samePlace(f, state) ? ' active' : '');
+      const go = document.createElement('button');
+      go.type = 'button'; go.className = 'chip-go'; go.textContent = f.name;
+      go.addEventListener('click', () => loadWeather(f.lat, f.lon, f.name, {}));
+      const rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'chip-x'; rm.textContent = '×';
+      rm.setAttribute('aria-label', 'Remove '+f.name);
+      rm.addEventListener('click', () => { favorites.splice(i, 1); store.set('favorites', favorites); renderFavorites(); });
+      chip.append(go, rm);
+      box.appendChild(chip);
+    });
+    box.classList.toggle('hidden', favorites.length === 0);
+
+    const star = document.getElementById('starBtn');
+    const fav = isFavorite();
+    star.setAttribute('aria-pressed', fav ? 'true' : 'false');
+    star.title = fav ? 'Remove from saved places' : 'Save this place';
+    star.setAttribute('aria-label', star.title);
+  }
+
+  function toggleFavorite(){
+    if(state.geo || state.lat == null) return;
+    const idx = favorites.findIndex(f => samePlace(f, state));
+    if(idx >= 0) favorites.splice(idx, 1);
+    else favorites = [{ name: state.place, lat: state.lat, lon: state.lon }].concat(favorites).slice(0, 8);
+    store.set('favorites', favorites);
+    renderFavorites();
+  }
+
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.remove('hidden');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.add('hidden'), 2200);
+  }
+
+  function placeLink(p){
+    const u = new URL(location.href);
+    u.search = new URLSearchParams({ lat: p.lat.toFixed(4), lon: p.lon.toFixed(4), name: p.name }).toString();
+    u.hash = '';
+    return u.toString();
+  }
+
+  async function shareLink(){
+    if(state.geo || state.lat == null) return;
+    const href = placeLink({ lat: state.lat, lon: state.lon, name: state.place });
+    try{ await navigator.clipboard.writeText(href); showToast('Link copied'); }
+    catch(e){ window.prompt('Copy this link', href); }
+  }
+
+  document.getElementById('starBtn').addEventListener('click', toggleFavorite);
+  document.getElementById('shareBtn').addEventListener('click', shareLink);
+
+  // Remember where the user was, and keep the address bar in sync for shareable links.
+  // A GPS location is never written to the URL or shared.
+  function persistPlace(opts){
+    try{
+      if(opts.geo){
+        store.set('last', { mode:'geo' });
+        if(location.search) history.replaceState(null, '', location.pathname);
+      } else if(!opts.fallback){
+        const p = { name: state.place, lat: state.lat, lon: state.lon };
+        store.set('last', Object.assign({ mode:'place' }, p));
+        store.set('lastPlace', p);
+        history.replaceState(null, '', new URL(placeLink(p)).search || location.pathname);
+      }
+    }catch(e){}
+  }
+
+  function paramsPlace(){
+    try{
+      const q = new URLSearchParams(location.search);
+      const lat = parseFloat(q.get('lat')), lon = parseFloat(q.get('lon'));
+      if(!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+      return { lat, lon, name: (q.get('name') || '').trim().slice(0, 80) || 'Shared location' };
     }catch(e){ return null; }
   }
 
   // ---------- data fetching ----------
-  async function loadWeather(lat, lon, placeLabel){
-    statusEl.textContent = 'Reading the sky…';
-    statusEl.classList.remove('error');
-    statusEl.classList.remove('hidden');
-    contentEl.classList.add('hidden');
+  // opts: { geo }      — this is the user's GPS location (never persisted to the URL / shareable)
+  //       { fallback } — a default location we fell back to; don't remember it as the user's choice
+  //       { silent }   — background refresh: no loading screen, keep last good data on failure
+  async function loadWeather(lat, lon, placeLabel, opts){
+    opts = opts || {};
+    const silent = !!opts.silent;
+    const myReq = ++state.reqId; // lets a newer request supersede this one if responses arrive out of order
+    state.loading = true;
+    state.lastAttempt = Date.now();
+    if(!silent){
+      statusEl.textContent = 'Reading the sky…';
+      statusEl.classList.remove('error');
+      statusEl.classList.remove('hidden');
+      contentEl.classList.add('hidden');
+    }
     try{
       const url = 'https://api.open-meteo.com/v1/forecast'
         + '?latitude='+lat+'&longitude='+lon
-        + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m,surface_pressure'
+        + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure'
         + '&hourly=temperature_2m,weather_code,precipitation_probability,relative_humidity_2m,is_day'
         + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max,sunrise,sunset'
         + '&timezone=auto&forecast_days=8';
-      const [res, pollen] = await Promise.all([ fetch(url), fetchPollen(lat, lon) ]);
+      const [res, air] = await Promise.all([ fetch(url), fetchAirQuality(lat, lon) ]);
+      if(myReq !== state.reqId) return;
       if(!res.ok) throw new Error('forecast fetch failed: '+res.status);
       const data = await res.json();
+      if(myReq !== state.reqId) return;
+
+      const newLat = parseFloat(lat), newLon = parseFloat(lon);
+      const locChanged = state.lat !== newLat || state.lon !== newLon;
       state.data = data;
-      state.pollen = pollen;
+      state.pollen = air ? air.pollen : null;
+      state.aqi = air ? air.aqi : null;
       state.place = placeLabel;
-      state.lat = parseFloat(lat);
-      state.lon = parseFloat(lon);
+      state.lat = newLat;
+      state.lon = newLon;
+      state.geo = !!opts.geo;
+      state.lastLoaded = Date.now();
+
       statusEl.classList.add('hidden');
       contentEl.classList.remove('hidden');
+      if(!silent){
+        state.alerts = []; // never show the previous place's alerts on a new place
+        if(locChanged) document.getElementById('dailyLedger').textContent = ''; // collapse rows for a new place
+        persistPlace(opts);
+      }
       renderAll();
-      if(radarMap) recenterRadar();
+      renderAlerts();
+      if(radarMap && locChanged) recenterRadar();
+      if(radarActive && silent) setRadarMode(radarMode); // refresh stale radar frames / temperatures
+
+      // alerts load in the background so a slow NWS response never delays the forecast
+      fetchAlerts(newLat, newLon).then(list => {
+        if(myReq !== state.reqId || list === null) return;
+        state.alerts = list;
+        renderAlerts();
+      });
     }catch(err){
+      if(myReq !== state.reqId || silent) return; // a failed background refresh keeps the last good data
       const isFileProtocolIssue = location.protocol === 'file:';
       statusEl.textContent = isFileProtocolIssue
         ? 'Could not reach the weather service from a local file. See the note above for how to fix it.'
-        : 'The sky isn\u2019t answering right now. Check your connection and try again.';
+        : 'The sky isn’t answering right now. Check your connection and try again.';
       statusEl.classList.add('error');
+    }finally{
+      if(myReq === state.reqId) state.loading = false;
     }
   }
+
+  // ---------- auto-refresh ----------
+  const REFRESH_MS = 15 * 60 * 1000;
+  function tickRefresh(){
+    if(document.hidden || state.lat == null || state.loading) return;
+    const now = Date.now();
+    if(now - state.lastLoaded < REFRESH_MS) return;
+    if(now - state.lastAttempt < 2 * 60 * 1000) return; // back off after a failed attempt
+    loadWeather(state.lat, state.lon, state.place, { silent:true, geo:state.geo });
+  }
+  setInterval(tickRefresh, 60 * 1000);
+  document.addEventListener('visibilitychange', () => { if(!document.hidden) tickRefresh(); });
 
   async function geocode(query){
     const url = 'https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(query)+'&count=5&language=en&format=json';
@@ -790,8 +1182,9 @@
       if(!places.length){ resultsEl.classList.add('hidden'); return; }
       resultsEl.innerHTML = places.map(p=>{
         const sub = [p.admin1, p.country].filter(Boolean).join(', ');
-        return '<button data-lat="'+p.latitude+'" data-lon="'+p.longitude+'" data-name="'+p.name.replace(/"/g,'&quot;')+'">'+
-          p.name + '<span class="place-sub"> — '+sub+'</span></button>';
+        const label = p.name + (p.admin1 ? ', '+p.admin1 : ''); // "Springfield, Illinois" beats a bare "Springfield"
+        return '<button data-lat="'+esc(p.latitude)+'" data-lon="'+esc(p.longitude)+'" data-name="'+esc(label)+'">'+
+          esc(p.name) + '<span class="place-sub"> — '+esc(sub)+'</span></button>';
       }).join('');
       resultsEl.classList.remove('hidden');
     }, 320);
@@ -802,7 +1195,7 @@
     if(!btn) return;
     resultsEl.classList.add('hidden');
     searchInput.value = '';
-    loadWeather(btn.dataset.lat, btn.dataset.lon, btn.dataset.name);
+    loadWeather(parseFloat(btn.dataset.lat), parseFloat(btn.dataset.lon), btn.dataset.name, {});
   });
 
   document.addEventListener('click', (e)=>{
@@ -814,7 +1207,7 @@
     statusEl.textContent = 'Locating…';
     statusEl.classList.remove('hidden'); contentEl.classList.add('hidden');
     navigator.geolocation.getCurrentPosition(
-      pos => loadWeather(pos.coords.latitude, pos.coords.longitude, 'Current location'),
+      pos => loadWeather(pos.coords.latitude, pos.coords.longitude, 'Current location', { geo:true }),
       () => fallbackLocation(),
       { timeout: 12000, maximumAge: 300000 }
     );
@@ -830,15 +1223,29 @@
     }
   }
 
-  unitC.addEventListener('click', ()=>{ state.unit='C'; unitC.classList.add('active'); unitF.classList.remove('active'); if(state.data) renderAll(); refreshTempOverlayUnits(); });
-  unitF.addEventListener('click', ()=>{ state.unit='F'; unitF.classList.add('active'); unitC.classList.remove('active'); if(state.data) renderAll(); refreshTempOverlayUnits(); });
+  function setUnit(u){
+    state.unit = u;
+    store.set('unit', u);
+    unitC.classList.toggle('active', u === 'C');
+    unitF.classList.toggle('active', u === 'F');
+    if(state.data) renderAll();
+    refreshTempOverlayUnits();
+  }
+  unitC.addEventListener('click', ()=> setUnit('C'));
+  unitF.addEventListener('click', ()=> setUnit('F'));
 
+  // Used when GPS is denied/unavailable: the last place the user picked, else a default.
   async function fallbackLocation(){
+    const lp = store.get('lastPlace', null);
+    if(lp && isFinite(lp.lat) && isFinite(lp.lon)){
+      loadWeather(lp.lat, lp.lon, lp.name || 'Saved place', { fallback:true });
+      return;
+    }
     let places = [];
     try{ places = await geocode('Monroe, Louisiana'); }catch(e){ places = []; }
     if(places.length){
       const p = places[0];
-      loadWeather(p.latitude, p.longitude, p.name);
+      loadWeather(p.latitude, p.longitude, p.name, { fallback:true });
     } else {
       const isFileProtocolIssue = location.protocol === 'file:';
       statusEl.textContent = isFileProtocolIssue
@@ -849,12 +1256,20 @@
   }
 
   // ---------- radar ----------
-  let radarMap = null, radarLayers = null, radarTimer = null, radarActive = false;
-  let tempLayer = null, tempGridCenter = null, radarMode = 'radar';
+  let radarMap = null, radarMarker = null, radarTimer = null, radarActive = false;
+  let radarFrames = [];            // [{ time (unix seconds), layer }]
+  let radarIdx = 0, radarPlaying = true, radarFramesAt = 0, radarFramesLoading = false;
+  let tempLayer = null, tempGridCenter = null, tempBuiltAt = 0, radarMode = 'radar';
   let tempLabelMarkers = null, tempMinC = null, tempMaxC = null;
   const radarView = document.getElementById('radarView');
   const radarLoadingEl = document.getElementById('radarLoading');
   const legendEl = document.getElementById('legend');
+  const radarBar = document.getElementById('radarBar');
+  const radarPlayBtn = document.getElementById('radarPlay');
+  const radarSlider = document.getElementById('radarSlider');
+  const radarTimeEl = document.getElementById('radarTime');
+  const ICON_PAUSE = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>';
+  const ICON_PLAY = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg>';
 
   const TEMP_STOPS = [
     [-30,[40,20,90]], [-10,[40,90,200]], [0,[50,180,220]],
@@ -875,44 +1290,95 @@
   function recenterRadar(){
     if(!radarMap || state.lat==null) return;
     radarMap.setView([state.lat, state.lon], radarMap.getZoom() || 7);
+    if(radarMarker) radarMarker.setLatLng([state.lat, state.lon]); // the pin used to stay on the first location
     document.getElementById('radarPlace').textContent = state.place || '';
     tempGridCenter = null; // force temp grid rebuild for the new location
   }
 
-  function stopRadarLoop(){
-    if(radarTimer){ clearInterval(radarTimer); radarTimer = null; }
+  // ----- radar playback -----
+  function updateRadarTime(){
+    const f = radarFrames[radarIdx];
+    if(!f){ radarTimeEl.textContent = '—'; return; }
+    const t = new Date(f.time * 1000);
+    const mins = Math.max(0, Math.round((Date.now() - t.getTime()) / 60000));
+    const fmt = { hour:'numeric', minute:'2-digit' };
+    let clock;
+    try{ clock = t.toLocaleTimeString(undefined, Object.assign({ timeZone: state.data && state.data.timezone }, fmt)); }
+    catch(e){ clock = t.toLocaleTimeString(undefined, fmt); }
+    radarTimeEl.textContent = clock + (mins < 2 ? ' · latest' : ' · '+mins+' min ago');
   }
 
-  function startRadarLoop(){
-    if(!radarLayers || !radarLayers.length) return;
-    stopRadarLoop();
-    let i = radarLayers.length - 1;
-    radarLayers.forEach((l,idx)=> l.setOpacity(idx===i ? 0.75 : 0));
-    radarTimer = setInterval(()=>{
-      radarLayers[i].setOpacity(0);
-      i = (i+1) % radarLayers.length;
-      radarLayers[i].setOpacity(0.75);
-    }, 600);
+  function showRadarFrame(i){
+    if(!radarFrames.length) return;
+    radarIdx = Math.max(0, Math.min(radarFrames.length - 1, i));
+    radarFrames.forEach((f, idx) => f.layer.setOpacity(idx === radarIdx ? 0.75 : 0));
+    radarSlider.value = String(radarIdx);
+    updateRadarTime();
   }
+
+  function stopRadarLoop(){
+    if(radarTimer){ clearTimeout(radarTimer); radarTimer = null; }
+  }
+
+  // advances one frame at a time so the newest frame can linger before the loop restarts
+  function startRadarLoop(){
+    stopRadarLoop();
+    if(!radarPlaying || radarFrames.length < 2) return;
+    const delay = radarIdx === radarFrames.length - 1 ? 1600 : 650;
+    radarTimer = setTimeout(() => {
+      showRadarFrame((radarIdx + 1) % radarFrames.length);
+      startRadarLoop();
+    }, delay);
+  }
+
+  function setRadarPlaying(on){
+    radarPlaying = on;
+    radarPlayBtn.innerHTML = on ? ICON_PAUSE : ICON_PLAY;
+    radarPlayBtn.setAttribute('aria-label', on ? 'Pause radar' : 'Play radar');
+    if(on && radarMode === 'radar') startRadarLoop(); else stopRadarLoop();
+  }
+  radarPlayBtn.innerHTML = ICON_PAUSE;
+  radarPlayBtn.addEventListener('click', () => setRadarPlaying(!radarPlaying));
+  radarSlider.addEventListener('input', () => {
+    setRadarPlaying(false); // scrubbing takes manual control
+    showRadarFrame(parseInt(radarSlider.value, 10));
+  });
 
   async function loadRadarFrames(){
+    if(radarFramesLoading) return;
+    radarFramesLoading = true;
     radarLoadingEl.textContent = 'Tuning in the radar…';
     radarLoadingEl.classList.remove('hidden');
     try{
       const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+      if(!res.ok) throw new Error('radar index '+res.status);
       const json = await res.json();
-      const past = (json.radar && json.radar.past ? json.radar.past : []).slice(-6);
-      radarLayers = past.map(f => L.tileLayer(json.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { opacity:0, maxZoom:19 }));
-      radarLayers.forEach(l => l.addTo(radarMap));
+      const past = (json.radar && json.radar.past ? json.radar.past : []).slice(-8);
+      if(!past.length) throw new Error('no radar frames');
+      // swap frames only once the new index is in hand, so a failed refresh keeps the old loop
+      radarFrames.forEach(f => radarMap.removeLayer(f.layer));
+      radarFrames = past.map(f => ({
+        time: f.time,
+        layer: L.tileLayer(json.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { opacity:0, maxZoom:19 }).addTo(radarMap)
+      }));
+      radarFramesAt = Date.now();
+      radarSlider.max = String(radarFrames.length - 1);
       radarLoadingEl.classList.add('hidden');
-      if(radarMode==='radar') startRadarLoop();
+      if(radarMode === 'radar'){
+        showRadarFrame(radarFrames.length - 1);
+        startRadarLoop();
+      }
     }catch(e){
-      radarLoadingEl.textContent = 'Radar imagery unavailable right now.';
+      if(!radarFrames.length) radarLoadingEl.textContent = 'Radar imagery unavailable right now.';
+      else radarLoadingEl.classList.add('hidden');
+    }finally{
+      radarFramesLoading = false;
     }
   }
 
   async function ensureTempLayer(){
-    const changed = !tempGridCenter || tempGridCenter[0]!==state.lat || tempGridCenter[1]!==state.lon;
+    const stale = Date.now() - tempBuiltAt > 15 * 60 * 1000;
+    const changed = stale || !tempGridCenter || tempGridCenter[0]!==state.lat || tempGridCenter[1]!==state.lon;
     if(tempLayer && !changed) return;
     if(tempLayer){ radarMap.removeLayer(tempLayer); tempLayer = null; }
     if(tempLabelMarkers){ tempLabelMarkers.forEach(m=>radarMap.removeLayer(m)); tempLabelMarkers = null; }
@@ -1014,6 +1480,7 @@
       tempLayer = L.imageOverlay(canvas.toDataURL(), [[minLat,minLon],[maxLat,maxLon]], { opacity:0, interactive:false });
       tempLayer.addTo(radarMap);
       tempGridCenter = [state.lat, state.lon];
+      tempBuiltAt = Date.now();
       tempMinC = minT; tempMaxC = maxT;
       document.getElementById('legendMin').textContent = toDisplay(minT)+'°';
       document.getElementById('legendMax').textContent = toDisplay(maxT)+'°';
@@ -1038,13 +1505,16 @@
     radarMode = mode;
     document.querySelectorAll('#modeToggle button').forEach(b=> b.classList.toggle('active', b.dataset.mode===mode));
     legendEl.classList.toggle('hidden', mode!=='temp');
+    radarBar.classList.toggle('hidden', mode!=='radar');
     if(mode==='radar'){
       if(tempLayer) tempLayer.setOpacity(0);
       if(tempLabelMarkers) tempLabelMarkers.forEach(m=>m.setOpacity(0));
-      if(radarLayers) startRadarLoop(); else loadRadarFrames();
+      if(radarFrames.length){ showRadarFrame(radarIdx); startRadarLoop(); }
+      // RainViewer publishes a new frame about every 10 minutes
+      if(!radarFrames.length || Date.now() - radarFramesAt > 9 * 60 * 1000) loadRadarFrames();
     } else {
       stopRadarLoop();
-      if(radarLayers) radarLayers.forEach(l=>l.setOpacity(0));
+      radarFrames.forEach(f => f.layer.setOpacity(0));
       ensureTempLayer().then(()=>{
         if(tempLayer) tempLayer.setOpacity(0.62);
         if(tempLabelMarkers) tempLabelMarkers.forEach(m=>m.setOpacity(1));
@@ -1061,14 +1531,16 @@
   async function initRadar(){
     if(state.lat == null) return;
     if(!radarMap){
-      radarMap = L.map('radarMap', { zoomControl:true, doubleClickZoom:false }).setView([state.lat, state.lon], 7);
+      // zoom buttons live bottom-right so they don't sit on top of the "Radar / place" label
+      radarMap = L.map('radarMap', { zoomControl:false, doubleClickZoom:false }).setView([state.lat, state.lon], 7);
+      L.control.zoom({ position:'bottomright' }).addTo(radarMap);
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
         attribution:'Tiles &copy; Esri', maxZoom:16
       }).addTo(radarMap);
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
         maxZoom:16
       }).addTo(radarMap);
-      L.marker([state.lat, state.lon]).addTo(radarMap);
+      radarMarker = L.marker([state.lat, state.lon]).addTo(radarMap);
       document.getElementById('radarMap').addEventListener('dblclick', (e)=>{ e.stopPropagation(); toggleRadar(); });
     } else {
       recenterRadar();
@@ -1092,7 +1564,7 @@
   }
 
   document.addEventListener('dblclick', (e)=>{
-    if(e.target.closest('input, button, a, .hour-card, .day-row, .day-item, .day-detail, .results, .leaflet-control, .mode-toggle, .info-modal')) return;
+    if(e.target.closest('input, button, a, .hour-card, .day-row, .day-item, .day-detail, .results, .leaflet-control, .mode-toggle, .info-modal, .saved-chips, .alerts, .place-actions, .radar-bar')) return;
     toggleRadar();
   });
 
@@ -1112,14 +1584,29 @@
   });
 
   // ---------- init ----------
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      pos => loadWeather(pos.coords.latitude, pos.coords.longitude, 'Current location'),
-      () => fallbackLocation(),
-      { timeout: 12000, maximumAge: 300000 }
-    );
+  function startWithGeolocation(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(
+        pos => loadWeather(pos.coords.latitude, pos.coords.longitude, 'Current location', { geo:true }),
+        () => fallbackLocation(),
+        { timeout: 12000, maximumAge: 300000 }
+      );
+    } else {
+      fallbackLocation();
+    }
+  }
+
+  renderFavorites();
+  // Priority: a shared link (?lat=&lon=&name=) → the place the user last picked → GPS.
+  // The locate button always switches back to GPS.
+  const sharedPlace = paramsPlace();
+  const lastChoice = store.get('last', null);
+  if(sharedPlace){
+    loadWeather(sharedPlace.lat, sharedPlace.lon, sharedPlace.name, {});
+  } else if(lastChoice && lastChoice.mode === 'place' && isFinite(lastChoice.lat) && isFinite(lastChoice.lon)){
+    loadWeather(lastChoice.lat, lastChoice.lon, lastChoice.name || 'Saved place', {});
   } else {
-    fallbackLocation();
+    startWithGeolocation();
   }
 })();
 </script>
