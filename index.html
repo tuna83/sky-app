@@ -11,6 +11,7 @@
   :root{ color-scheme: dark; }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;min-height:100%;}
+  html{overflow-x:hidden;overflow-x:clip;}
   body{
     font-family:'Inter', -apple-system, system-ui, sans-serif;
     color:#fff;
@@ -46,10 +47,11 @@
 
   .wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:18px 20px 60px;transition:opacity .5s ease;}
   body.radar-mode .wrap{opacity:0;pointer-events:none;}
+  html:has(body.radar-mode),body.radar-mode{overflow:hidden;}
   body.radar-mode #particles{opacity:0;transition:opacity .5s ease;}
 
   .radar-view{
-    position:fixed;inset:0;z-index:6;opacity:0;pointer-events:none;
+    position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:6;opacity:0;pointer-events:none;
     transition:opacity .6s ease;background:#0b0e14;
   }
   .radar-view.active{opacity:1;pointer-events:auto;}
@@ -170,13 +172,17 @@
   .day-item{border-bottom:1px solid rgba(255,255,255,.12);}
   .day-item:last-child{border-bottom:none;}
   .day-row{
-    display:grid;grid-template-columns:70px 26px 1fr 128px 38px 16px;
+    display:grid;grid-template-columns:70px 26px minmax(0,1fr) 128px 38px 16px;
     align-items:center;gap:12px;padding:13px 4px;
     font-size:14px;font-weight:400;cursor:pointer;
   }
   .day-row .dname{color:#fff;}
   .day-row svg{width:19px;height:19px;opacity:.9;}
-  .day-row .cond{color:rgba(255,255,255,.6);font-size:12px;}
+  .day-row .cond{color:rgba(255,255,255,.6);font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  @media (max-width:440px){
+    .day-row{grid-template-columns:54px 22px minmax(0,1fr) 92px 34px 14px;gap:8px;font-size:13.5px;}
+    .day-row .cond{display:none;}
+  }
   .range{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.55);}
   .range-track{position:relative;flex:1;height:3px;background:rgba(255,255,255,.18);border-radius:2px;}
   .range-fill{position:absolute;top:0;bottom:0;background:rgba(255,255,255,.85);border-radius:2px;}
@@ -271,7 +277,7 @@
 
   /* radar playback bar */
   .radar-bar{
-    position:absolute;left:20px;bottom:26px;right:96px;max-width:440px;z-index:500;
+    position:absolute;left:12px;bottom:max(26px,env(safe-area-inset-bottom));right:12px;max-width:440px;z-index:500;
     display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:24px;
     background:rgba(10,14,22,.66);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(6px);
     font-family:'Inter',sans-serif;color:#fff;
@@ -283,6 +289,12 @@
   .radar-bar button:focus-visible{outline:2px solid #fff;outline-offset:2px;}
   .radar-bar input[type=range]{flex:1;min-width:60px;accent-color:#fff;cursor:pointer;}
   .radar-time{font-size:11.5px;white-space:nowrap;opacity:.92;min-width:96px;text-align:right;}
+  @media (max-width:520px){
+    .radar-bar{right:12px;bottom:max(16px,env(safe-area-inset-bottom));padding:6px 12px 6px 6px;gap:8px;}
+    .radar-time{min-width:0;font-size:11px;}
+    .legend{left:12px;bottom:max(18px,env(safe-area-inset-bottom));}
+  }
+  @media (pointer:coarse){.radar-view .leaflet-control-zoom{display:none;}}
 
   .linklike{
     background:none;border:none;padding:0;font:inherit;color:rgba(255,255,255,.7);
@@ -762,7 +774,6 @@
     document.getElementById('hiLo').textContent = 'H:'+toDisplay(d.daily.temperature_2m_max[0])+'°  L:'+toDisplay(d.daily.temperature_2m_min[0])+'°  ·  Feels like '+toDisplay(cur.apparent_temperature)+'°  ·  Humidity '+Math.round(cur.relative_humidity_2m)+'%';
     document.getElementById('summary').textContent = buildSummary(d, info, isDay);
     renderStatChips(cur);
-    document.getElementById('placeActions').classList.toggle('hidden', state.geo);
     renderFavorites();
 
     renderHourly(d);
@@ -993,14 +1004,14 @@
   let favorites = store.get('favorites', []);
   if(!Array.isArray(favorites)) favorites = [];
   const samePlace = (a, b) => Math.abs(a.lat - b.lat) < 0.02 && Math.abs(a.lon - b.lon) < 0.02;
-  const isFavorite = () => state.lat != null && !state.geo && favorites.some(f => samePlace(f, state));
+  const isFavorite = () => state.lat != null && favorites.some(f => samePlace(f, state));
 
   function renderFavorites(){
     const box = document.getElementById('savedChips');
     box.textContent = '';
     favorites.forEach((f, i) => {
       const chip = document.createElement('div');
-      chip.className = 'chip' + (state.lat != null && !state.geo && samePlace(f, state) ? ' active' : '');
+      chip.className = 'chip' + (state.lat != null && samePlace(f, state) ? ' active' : '');
       const go = document.createElement('button');
       go.type = 'button'; go.className = 'chip-go'; go.textContent = f.name;
       go.addEventListener('click', () => loadWeather(f.lat, f.lon, f.name, {}));
@@ -1021,10 +1032,19 @@
   }
 
   function toggleFavorite(){
-    if(state.geo || state.lat == null) return;
+    if(state.lat == null) return;
     const idx = favorites.findIndex(f => samePlace(f, state));
     if(idx >= 0) favorites.splice(idx, 1);
-    else favorites = [{ name: state.place, lat: state.lat, lon: state.lon }].concat(favorites).slice(0, 8);
+    else{
+      let name = state.place;
+      if(state.geo){ // a GPS fix has no real name, so ask for one
+        let n = null;
+        try{ n = window.prompt('Name this location', 'My location'); }catch(e){}
+        if(n === null) return;
+        name = n.trim().slice(0, 40) || 'My location';
+      }
+      favorites = [{ name, lat: state.lat, lon: state.lon }].concat(favorites).slice(0, 8);
+    }
     store.set('favorites', favorites);
     renderFavorites();
   }
@@ -1040,15 +1060,17 @@
 
   function placeLink(p){
     const u = new URL(location.href);
-    u.search = new URLSearchParams({ lat: p.lat.toFixed(4), lon: p.lon.toFixed(4), name: p.name }).toString();
+    const dp = p.coarse ? 2 : 4;
+    u.search = new URLSearchParams({ lat: p.lat.toFixed(dp), lon: p.lon.toFixed(dp), name: p.name }).toString();
     u.hash = '';
     return u.toString();
   }
 
   async function shareLink(){
-    if(state.geo || state.lat == null) return;
-    const href = placeLink({ lat: state.lat, lon: state.lon, name: state.place });
-    try{ await navigator.clipboard.writeText(href); showToast('Link copied'); }
+    if(state.lat == null) return;
+    // a GPS fix is shared only to ~1 km, under a generic name
+    const href = placeLink({ lat: state.lat, lon: state.lon, name: state.geo ? 'Shared location' : state.place, coarse: state.geo });
+    try{ await navigator.clipboard.writeText(href); showToast(state.geo ? 'Link copied (location rounded to ~1 km)' : 'Link copied'); }
     catch(e){ window.prompt('Copy this link', href); }
   }
 
